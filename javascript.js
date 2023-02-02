@@ -1,37 +1,35 @@
 const butContainer=document.querySelectorAll("button[id^=but]");
 let text2=document.getElementById("text2");
 let text1=document.getElementById("text1");
-//const but3=document.getElementById("but3");
+
 
 let displayValue1=0;
 let displayValue2=0;
 let dsplyVal=0;
-let equation=0;
+let equation="";
 let op=null;
 let eqls=0;
 
 [].forEach.call(butContainer,function(e){
   e.addEventListener("click",function(){
-    if(e.textContent==="+"){
-      op="add";
-      dsplyVal=displayValue1;//3
-      equation=displayValue1+"+";//3+
-      text1.textContent=equation;
-    }else if(e.textContent==="="){
-      equation=equation+"=";
-      text1.textContent=equation;
-      text2.textContent=eqls;
-      //alert(operate(op,dsplyVal,displayValue2));
 
+    if(e.textContent==="+"||e.textContent==="-"){
+      displayValue1=parseInt(equation);//displayValue1=3
+      text1.textContent=text2.textContent+e.textContent;//2+
+      equation="";
+    }else if(e.textContent==="="){
+      text1.textContent=text1.textContent+equation+e.textContent;
+      eqls=dsplyVal+displayValue1;
+      text2.textContent=eqls;
     }else{
-      displayValue2=parseInt(e.textContent);//displayValue2=3
-      if(op==="add"){
-        //alert(dsplyVal+" "+displayValue2);
-        eqls=operate(op,dsplyVal,displayValue2);
-      }
-      displayValue1=displayValue2;        //displayValue1=3
-      text2.textContent=displayValue2;
+      displayValue2=parseInt(e.textContent);//5
+      equation=equation+displayValue2;//"5"
+      dsplyVal=parseInt(equation);//23
+      console.log(dsplyVal);
+      text2.textContent=dsplyVal;//23
     }
+    
+
   });
 });
 
