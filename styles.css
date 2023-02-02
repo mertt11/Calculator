@@ -26,18 +26,35 @@ body{
 }
 .display1{
     min-height: 32px;
+    position: relative;
     background-color: red;
 }
 .display2{
     min-height: 64px;
+    position: relative;
     background-color: yellow;
+}
+#text2{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+    font-size: 30px;
+}
+#text1{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 5px;
+    font-size: 20px;
+    margin-right: 3px;
 }
 .bigButtons{
     display: flex;
     justify-content: center;
     align-items: center;
     gap:15px;
-
+/*sayfayı yanlardan küçült*/
 }
 #clear-but,#del-but{
     min-width: 175px;
