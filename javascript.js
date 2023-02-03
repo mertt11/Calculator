@@ -7,31 +7,47 @@ let displayValue1=0;
 let displayValue2=0;
 let dsplyVal=0;
 let equation="";
+let equtn="";
 let op=null;
 let eqls=0;
-
+let sum=0;
+let num=0;
 [].forEach.call(butContainer,function(e){
   e.addEventListener("click",function(){
 
-    if(e.textContent==="+"||e.textContent==="-"){
-      displayValue1=parseInt(equation);//displayValue1=3
-      text1.textContent=text2.textContent+e.textContent;//2+
-      equation="";
-    }else if(e.textContent==="="){
-      text1.textContent=text1.textContent+equation+e.textContent;
-      eqls=dsplyVal+displayValue1;
-      text2.textContent=eqls;
-    }else{
-      displayValue2=parseInt(e.textContent);//5
-      equation=equation+displayValue2;//"5"
-      dsplyVal=parseInt(equation);//23
-      console.log(dsplyVal);
-      text2.textContent=dsplyVal;//23
-    }
+      
     
-
+    if(e.textContent==="+"||e.textContent==="-"){
+      addToEquation(e.textContent);  
+      op=e.textContent;
+      num=sum+parseInt(equation);//num=23
+      resetSecreen();
+      text1.textContent=num+op;
+    }else if(e.textContent==="="){
+      text2.textContent=num+parseInt(equation);
+      addToEquation(e.textContent);  
+      text1.textContent=text1.textContent+equation;
+    }else{
+      addToEquation(e.textContent);  
+      text2.textContent=equation;
+    } 
   });
+ 
 });
+
+
+function addToEquation(txt){
+  equation=equation+txt;//equation="5="
+  //equtn=txt;//equtn=""
+}
+function resetSecreen(){
+  equation="";
+}
+
+
+
+
+
 
 
 
@@ -51,11 +67,11 @@ function divide(...args){
 
 function operate(op,...args){
   switch(op){
-    case "add":
+    case "+":
       return add(...args);
-    case "sub":
+    case "-":
       return sub(...args);
-    case "mul":
+    case "*":
       return mul(...args);
     case "divide":
       return divide(...args);
