@@ -1,80 +1,152 @@
-const butContainer=document.querySelectorAll("button[id^=but]");
+const numButtons=document.querySelectorAll("button[id^=but]");
+const opButtons=document.querySelectorAll("button[id^=opBut]");
+const equalsBut=document.getElementById("equalsBut");
+const clearBut=document.getElementById("clear-but");
+const delBut=document.getElementById("del-but");
+
+
 let text2=document.getElementById("text2");
 let text1=document.getElementById("text1");
 
+clearBut.addEventListener("click",clear);
+delBut.addEventListener("click",del);
+equalsBut.addEventListener("click",evaluate);
 
-let displayValue1=0;
-let displayValue2=0;
-let dsplyVal=0;
-let equation="";
-let equtn="";
-let op=null;
-let eqls=0;
-let sum=0;
-let num=0;
-[].forEach.call(butContainer,function(e){
-  e.addEventListener("click",function(){
+let currentOperation=null;
+let resetCheck=false;
 
-      
-    
-    if(e.textContent==="+"||e.textContent==="-"){
-      addToEquation(e.textContent);  
-      op=e.textContent;
-      num=sum+parseInt(equation);//num=23
-      resetSecreen();
-      text1.textContent=num+op;
-    }else if(e.textContent==="="){
-      text2.textContent=num+parseInt(equation);
-      addToEquation(e.textContent);  
-      text1.textContent=text1.textContent+equation;
-    }else{
-      addToEquation(e.textContent);  
-      text2.textContent=equation;
-    } 
-  });
- 
-});
 
+numButtons.forEach((button)=>
+button.addEventListener("click",()=>{
+  addToEquation(button.textContent);
+  shadow(button);
+}));
+
+opButtons.forEach((button)=>
+button.addEventListener("click",()=>{
+  setOperation(button.textContent);
+  shadow(button);
+}
+));
 
 function addToEquation(txt){
-  equation=equation+txt;//equation="5="
-  //equtn=txt;//equtn=""
+  if(resetCheck||text2.textContent==="0")
+    resetSecreen(); 
+  text2.textContent=text2.textContent+txt;
 }
+
 function resetSecreen(){
-  equation="";
+  text2.textContent="";
+  resetCheck=false;
 }
 
-
-
-
-
-
-
-
-function add(...args){
-  return args.reduce((total,a)=>total+a,0);
+function setOperation(operation){
+  if(currentOperation!=null) evaluate();
+  currentOperation=operation;
+  text1.textContent=text2.textContent+currentOperation;
+  resetCheck=true;
 }
-function sub(...args){
-  return args.reduce((a,b)=>a-b);
+function evaluate(){
+  if(currentOperation===null) return;
+  if(currentOperation==="/"&&text2.textContent==="0"){
+    alert("you cant divide");
+    return;
+  }
+  text1.textContent=text1.textContent+text2.textContent+"=";
+  text2.textContent=RoundNum(operate(currentOperation,parseFloat(text1.textContent),parseFloat(text2.textContent)));
+  currentOperation = null;
 }
-function mul(...args){
-  return args.reduce((total,a)=>total*a,1);
+function clear(){
+  text1.textContent="";
+  text2.textContent="0";
+  currentOperation=null;
+  resetCheck=false;
 }
-function divide(...args){
-  return args.reduce((total,a)=>total/a);
+function del(){
+  text2.textContent=text2.textContent.slice(0,text2.textContent.length-1);
 }
 
+function RoundNum(num){
+  if(typeof(num)==="number")
+    return num;
+  return num.toFixed(2);
+}
 
-function operate(op,...args){
+function add(a,b){
+  return a+b;
+}
+function sub(a,b){
+  return a-b;
+}
+function mul(a,b){
+  return a*b;
+}
+function divide(a,b){
+  return a/b;
+}
+
+function operate(op,a,b){
   switch(op){
     case "+":
-      return add(...args);
+      return add(a,b);
     case "-":
-      return sub(...args);
-    case "*":
-      return mul(...args);
-    case "divide":
-      return divide(...args);
+      return sub(a,b);
+    case "x":
+      return mul(a,b);
+    case "/":
+      return divide(a,b);
   }
 }
 
+function shadow(button){
+  button.style.backgroundColor="rgba(192, 229, 229, 0.856)";
+  setTimeout(()=>{button.style.backgroundColor="";},150);
+}
+
+//keyboard press
+document.addEventListener("keydown",(e)=>{
+  if(e.key==='0'){
+    shadow(but11);
+    addToEquation(e.key);
+  }else if(e.key==='1'){
+    shadow(but7);
+    addToEquation(e.key);
+  }else if(e.key==='2'){
+    shadow(but8);
+    addToEquation(e.key);
+  }else if(e.key==='3'){
+    shadow(but9);
+    addToEquation(e.key);
+  }else if(e.key==='4'){
+    shadow(but4);
+    addToEquation(e.key);
+  }else if(e.key==='5'){
+    shadow(but5);
+    addToEquation(e.key);
+  }else if(e.key==='6'){
+    shadow(but6);
+    addToEquation(e.key);
+  }else if(e.key==='7'){
+    shadow(but1);
+    addToEquation(e.key);
+  }else if(e.key==='8'){
+    shadow(but2);
+    addToEquation(e.key);
+  }else if(e.key==='9'){
+    shadow(but3);
+    addToEquation(e.key);
+  }else if(e.key==='+'&& e.shiftKey){
+    shadow(opBut4);
+    setOperation("+");
+  }else if(e.key==='-'){
+    shadow(opBut3);
+    setOperation(e.key);
+  }else if(e.key==='*'||e.key==='x'){
+    shadow(opBut2);
+    setOperation(e.key);
+  }else if(e.key==='='&& e.shiftKey){
+    shadow(equalsBut);
+    evaluate();
+  }
+
+});
